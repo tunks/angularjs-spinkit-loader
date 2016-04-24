@@ -23,6 +23,10 @@ an HTTP request being processed.
 	</body>
 ```
 
+```js
+	var myApp = angular.module('myApp', ['spinkitLoader']);
+```
+
 ## Options
 You can select between the available SpinKit indicators
 
