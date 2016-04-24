@@ -12,7 +12,7 @@ gulp.task('html', function() {
 	}))
 	.pipe(concat("partials.min.js"))
 	.pipe(uglify())
-	.pipe(gulp.dest("./dist/partials"));
+	.pipe(gulp.dest("./tmp/js"));
 });
 
 gulp.task('js', function() {
@@ -21,18 +21,24 @@ gulp.task('js', function() {
   ])
   .pipe(rename({suffix: '.min'}))
   .pipe(uglify())
-  .pipe(gulp.dest('./dist/js'))
+  .pipe(gulp.dest('./tmp/js'))
+});
+
+gulp.task('concat', ['js', 'html'], function() {
+  return gulp.src(['./tmp/js/*.js'])
+    .pipe(concat('spinkit-loader.min.js'))
+    .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('watch', function () {
-  gulp.watch('./src/*.js', ['js']);
-  gulp.watch('./partials/*.html', ['html']);
+  gulp.watch('./src/*.js', ['concat']);
+  gulp.watch('./partials/*.html', ['concat']);
 });
 
 gulp.task('clean', function(cb) {
-  del(['./dist/js/*.js', './dist/partials/*.js'], cb())
+  del(['./dist/*.js', './tmp/js/*.js'], cb())
 });
 
 gulp.task('default', ['clean'], function() {
-    gulp.start('js', 'html', 'watch');
+    gulp.start('concat', 'watch');
 });

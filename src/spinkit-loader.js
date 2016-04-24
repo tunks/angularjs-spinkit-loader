@@ -7,7 +7,7 @@ angular.module('spinkitLoader', ['ng', 'Gdo'])
       scope: {
         settings: '='
       },
-      template: '<ng-include class="loader-container" ng-show="showLoader" src="getTemplateUrl()"/>',
+      template: '<ng-include class="{{_settings.containerClass}}" ng-show="showLoader" src="getTemplateUrl()"/>',
       link: function ($scope, $element, $attrs) {
         var SpinKitClasses = [
           'sk-rotating-plane',
@@ -25,7 +25,8 @@ angular.module('spinkitLoader', ['ng', 'Gdo'])
 
         $scope._settings = {
           spinkit: 'sk-rotating-plane',
-          class: ''
+          class: '',
+          containerClass: 'loader-container'
         };
         angular.extend($scope._settings, $scope.settings || []);
 
